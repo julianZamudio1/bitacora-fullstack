@@ -1,0 +1,251 @@
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL http://sustayta.com.mx
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 18:31:37 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL http://www.sustayta.com.mx
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 18:32:44 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL https://www.sustayta.com.mx
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 18:33:13 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL https://sustayta.com.mx
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 18:33:39 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+Conclusiones:
++---------------------------+------+-------+--------+-------------------------------+
+|URL de inicio              |Saltos|Códigos|Location|URL final                      |
++---------------------------+------+-------+--------+-------------------------------+
+|http://sustayta.com.mx     |   0  |   200 |   -    |la misma                       |
++---------------------------+------+-------+--------+-------------------------------+
+|http://www.sustayta.com.mx |   0  |   200 |   -    |la misma                       |
++---------------------------+------+-------+--------+-------------------------------+
+|https://www.sustayta.com.mx|   0  |   200 |   -    |la misma                       |
++---------------------------+------+-------+--------+-------------------------------+
+|https://sustayta.com.mx    |   0  |   200 |   -    |la misma(deberia ser la única) |
++---------------------------+------+-------+--------+-------------------------------+
+
+Para arreglar esto:
+agregar en el <head>:
+<link rel="canonical" href="https://sustayta.com.mx">
+
+en en cpanel en /public_html/.htaccess
+# Redirecci贸n can贸nica: todo a https://sustayta.com.mx (prueba con 302)
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^ https://sustayta.com.mx%{REQUEST_URI} [L,R=302]
+
+302 para comprobar que funcione
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL http://sustayta.com.mx
+HTTP/1.1 302 Found
+Date: Thu, 22 Oct 2026 20:14:38 GMT
+Server: Apache
+Location: https://sustayta.com.mx/
+Content-Type: text/html; charset=iso-8859-1
+
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 20:14:38 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL http://www.sustayta.com.mx
+HTTP/1.1 302 Found
+Date: Thu, 22 Oct 2026 20:14:50 GMT
+Server: Apache
+Location: https://sustayta.com.mx/
+Content-Type: text/html; charset=iso-8859-1
+
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 20:14:50 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL https://www.sustayta.com.mx
+HTTP/1.1 302 Found
+Date: Thu, 22 Oct 2026 20:15:29 GMT
+Server: Apache
+Location: https://sustayta.com.mx/
+Content-Type: text/html; charset=iso-8859-1
+
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 20:15:30 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL https://sustayta.com.mx
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 20:15:35 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+
+
+en en cpanel en /public_html/.htaccess
+# Redirecci贸n can贸nica: todo a https://sustayta.com.mx (prueba con 302)
+RewriteEngine On
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\. [NC]
+RewriteRule ^ https://sustayta.com.mx%{REQUEST_URI} [L,R=301]
+
+301 para moverlo permanentemente
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL http://sustayta.com.mx
+HTTP/1.1 301 Moved Permanently
+Date: Thu, 22 Oct 2026 20:20:23 GMT
+Server: Apache
+Location: https://sustayta.com.mx/
+Content-Type: text/html; charset=iso-8859-1
+
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 20:20:24 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL http://www.sustayta.com.mx
+HTTP/1.1 301 Moved Permanently
+Date: Thu, 22 Oct 2026 20:20:30 GMT
+Server: Apache
+Location: https://sustayta.com.mx/
+Content-Type: text/html; charset=iso-8859-1
+
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 20:20:30 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL https://www.sustayta.com.mx
+HTTP/1.1 301 Moved Permanently
+Date: Thu, 22 Oct 2026 20:20:35 GMT
+Server: Apache
+Location: https://sustayta.com.mx/
+Content-Type: text/html; charset=iso-8859-1
+
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 20:20:35 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
+
+
+julia@JULIANZAMUDIO MINGW64 ~
+$ curl.exe -IL https://sustayta.com.mx
+HTTP/1.1 200 OK
+Date: Thu, 22 Oct 2026 20:20:39 GMT
+Server: Apache
+Upgrade: h2,h2c
+Connection: Upgrade
+Last-Modified: Sat, 17 Oct 2026 00:05:04 GMT
+ETag: "1c09aa-918b-65dfe08624c00"
+Accept-Ranges: bytes
+Vary: Accept-Encoding
+Content-Length: 37713
+Content-Type: text/html
